@@ -89,6 +89,7 @@ public class TestMixedModeView extends View {
     private int mAlphaInt;
     private int mCircleColor = 0xFFFF0000;
     private int mSquareColor = 0xFF0000FF;
+    private int mLastBitmapModeAlpha;
 
     public TestMixedModeView(Context context) {
         this(context, null);
@@ -217,6 +218,19 @@ public class TestMixedModeView extends View {
             mDstBitmapCanvas.drawCircle(radius, radius, radius, paint);
         }
 
+        if (mLastBitmapModeAlpha != mAlphaInt) {
+            mLastBitmapModeAlpha = mAlphaInt;
+
+            mSrcBitmapCanvas.drawColor(0x00000000);
+            paint.setColor(mSquareColor);
+            Rect rect = new Rect(0, 0, squareLen, squareLen);
+            rect.offset(radius, radius);
+            mSrcBitmapCanvas.drawRect(rect, paint);
+
+            mDstBitmapCanvas.drawColor(0x00000000);
+            paint.setColor(mCircleColor);
+            mDstBitmapCanvas.drawCircle(radius, radius, radius, paint);
+        }
         drawArea.offset((int) rectF.left + offsetX,
                 (int) rectF.top + textBounds.height() * 2);
 
